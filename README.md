@@ -89,7 +89,7 @@ Full session information is provided in `session_info.txt`.
 
 ## Data availability
 
-Raw and processed sequencing data are deposited in NCBI Gene Expression Omnibus (GEO) under accession GSE[XXXXXX]. Supplemental tables referenced in the scripts are available as Supplementary Data in the published manuscript.
+Raw and processed sequencing data are deposited in NCBI Gene Expression Omnibus (GEO) under accession GSE342361. Supplemental tables referenced in the scripts are available as Supplementary Data in the published manuscript.
 
 ## Contact
 
