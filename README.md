@@ -1,9 +1,5 @@
 # Distinct chromatin accessibility programs are linked to metabolic regulation in human lactocytes
 
-**Laasya Devi Annepureddy<sup>1</sup>, Onyeka Ozuzu<sup>1</sup>, Olha Kholod<sup>1</sup>, Olivia Palmer<sup>1</sup>, Madison Spivak<sup>1</sup>, Ibrahim Ozgenc<sup>1,2</sup>, Irma Vlasac<sup>3</sup>, Michael C Rudolph<sup>4</sup>, Carol Ringeberg<sup>5</sup>, Elizabeth Sergison<sup>6</sup>, Fred Kolling<sup>5</sup>, Yu-Ying Chen<sup>7\*</sup>, Brock Christensen<sup>3,8+\*</sup>, Brittany A. Goods<sup>1,9+\*</sup>**
-
-*In review*
-
 ---
 
 ## Abstract
