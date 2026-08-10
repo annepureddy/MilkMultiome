@@ -1,60 +1,97 @@
 # Distinct chromatin accessibility programs are linked to metabolic regulation in human lactocytes
 
----
+Code repository for the manuscript: **"Distinct chromatin accessibility programs are linked to metabolic regulation in human lactocytes"** (Nature Communications, 2026).
 
-## Abstract
+## Overview
 
-The mammary epithelium undergoes extensive remodeling during pregnancy to support lactation, yet how specialized milk-producing epithelial (lactocyte) states are established in the human mammary gland remains poorly defined. Here, we use single-nucleus multiome profiling of human milk-derived cells to map the paired transcriptional and regulatory landscapes of lactocytes. We identify five lactocyte subclusters with distinct transcriptomic and epigenomic profiles. Secretory lactocytes exhibit increased chromatin accessibility at loci encoding metabolic enzymes involved in fatty acid handling and lipid secretion. Motif analysis implicates several transcription factors, including XBP1, NFIA, and NR3C2/1, in accessible regions near genes involved in lipid import and acyl-CoA biosynthesis, including CD36, ACSL1, and ACSS1. Functional metabolic profiling of these cells suggests that secretory epithelial cells, but not non-secretory cells, as marked by CD36 expression, are capable of engaging both glycolysis and fatty acid oxidation. These findings link lactocyte subtype identity to chromatin organization and metabolic phenotype, providing a framework for understanding epithelial regulation and functional specialization during human lactation.
-
----
+Matched snRNA-seq and snATAC-seq data were generated from somatic cells isolated from breast milk of 11 donors across a postpartum window of 11.6--97.3 weeks using the 10x Genomics Chromium Next GEM Single Cell Multiome ATAC + Gene Expression kit. Libraries were sequenced on the Illumina NextSeq 2000.
 
 ## Repository structure
 
 ```
 MilkMultiome_2026/
 ├── README.md
+├── 01_multiome_processing.R
+├── session_info.txt
 ├── figures/
-│   ├── Figure1.R       # Donor metadata lollipop plot; UMAP visualizations (RNA + ATAC);
-│   │                   # DEG dot plot; ATAC-RNA proportion heatmap; Pearson correlation
-│   │                   # heatmaps; LC1/LC2 module score violin plot; GO enrichment barplots
-│   ├── Figure2.R       # [description — to be updated]
-│   ├── Figure3.R       # [description — to be updated]
-│   └── Figure4.R       # [description — to be updated]
-└── session_info.txt    # R and package versions for all analyses
+│   ├── Figure1.R
+│   ├── Figure2.R
+│   ├── Figure3.R
+│   ├── Figure4.R
+│   └── figure5/
+│       ├── Figure5A_COMPASS.ipynb
+│       ├── Figure5B_SCENITH.R
+│       ├── reactions.tsv
+│       ├── Pseudo_df_metadata.tsv
+│       └── reaction_metadata.csv
 ```
 
----
+### Processing
 
-## Data availability
+| File | Description |
+|------|-------------|
+| `01_multiome_processing.R` | End-to-end preprocessing: CellBender ambient RNA removal, QC filtering, doublet detection (scDblFinder, dbr = 0.08), SCTransform normalization (regressing percent mitochondrial reads), Harmony batch correction, RNA and ATAC clustering (resolution 0.25, SLM algorithm), epithelial subclustering, WNN integration (RNA dims 1:12 + ATAC dims 2:10), MACS2 peak calling, LinkPeaks peak-to-gene correlation, DEG (Wilcoxon) and DAP (LR test) identification |
+| `session_info.txt` | Consolidated R session information with all package versions |
 
-Raw and processed data are deposited in NCBI Gene Expression Omnibus (GEO) under accession **GSE[XXX]**.
+### Figure scripts
 
-Supplemental tables referenced in the scripts (including DEG tables and gene signature files) are available as Supplementary Data in the published manuscript.
+| File | Description |
+|------|-------------|
+| `figures/Figure1.R` | Donor metadata lollipop plot; UMAP visualizations (RNA + ATAC); DEG dot plot; ATAC-RNA proportion heatmap; Pearson correlation heatmaps; LC1/LC2 module score violin plot; GO enrichment barplots |
+| `figures/Figure2.R` | Lactocyte subcluster characterization and gene expression analysis |
+| `figures/Figure3.R` | Chromatin accessibility analysis: DAP stacked barplots; genomic feature annotation; butterfly lollipop plots (Epithelial 0 vs 4); EHD4 and ELF5 coverage and expression plots |
+| `figures/Figure4.R` | TF motif enrichment and gene regulatory analysis: TF expression heatmap (z-scored); ChromVAR, RNA, and footprinting plots for FOSL2 and NR3C2; GO enrichment heatmaps per TF per cluster; ACSL1, CD36, and ACSS1 coverage, expression, and motif plots |
+| `figures/figure5/Figure5A_COMPASS.ipynb` | COMPASS metabolic flux analysis (Python): PCA of reaction consistency scores; Cohen's d dot-plot by RECON2 subsystem; volcano plots for citric acid cycle and fatty acid oxidation pathways |
+| `figures/figure5/Figure5B_SCENITH.R` | SCENITH/CENITH metabolic profiling: CD36+ metabolic parameter heatmap; effect size dot plot; raw MFI barplots for CD36+ and CD36- populations |
 
-> **To reproduce figures:** download the processed Seurat object (`Epithelial_final_links_footprint.rds`) from GEO, set `data_dir` at the top of each script to point to your local download location, and run the scripts in order.
+## Data requirements
 
----
+To reproduce the figures, the following files are needed:
+
+| File | Source |
+|------|--------|
+| `Epithelial_subset.rds` | Processed Seurat object (GEO) |
+| `Links_whole_dataset.csv` | Peak-to-gene links (Supplemental Table) |
+| `DAPs_Epi_LR.csv` | Differentially accessible peaks (Supplemental Table) |
+| `degs_sig_epithelial_v2.csv` | Differentially expressed genes (Supplemental Table) |
+| `SCENITH_MFI_concat.xlsx` | SCENITH MFI data (Supplemental Table S11) |
+| `reactions.tsv` | COMPASS penalty matrix (included in `figure5/`) |
+| `Pseudo_df_metadata.tsv` | Pseudobulk metadata (included in `figure5/`) |
+| `reaction_metadata.csv` | RECON2 annotations (included in `figure5/`) |
+
+Place the Seurat object and CSV files in the same directory as the figure scripts. COMPASS input files are included in the `figure5/` subdirectory.
 
 ## Software and dependencies
 
-All analyses were performed in **R** (version — see `session_info.txt`).
+All R analyses were performed in R 4.5.2. COMPASS analysis was performed in Python 3.
 
-Key packages:
+| Package | Version | Purpose |
+|---------|---------|---------|
+| Seurat | 5.4.0 | snRNA-seq processing and visualization |
+| Signac | 1.16.0 | snATAC-seq processing and visualization |
+| Harmony | 1.2.4 | Batch correction |
+| SCTransform | 0.4.1 | Normalization |
+| clusterProfiler | 4.8.14 | GO enrichment analysis |
+| ComplexHeatmap | 2.22.0 | Heatmap visualization |
+| chromVAR | 1.28.0 | TF motif activity scores |
+| JASPAR2024 | -- | TF motif database |
+| ChIPseeker | -- | Peak annotation |
+| COMPASS | -- | Metabolic flux analysis (RECON2) |
 
-| Package | Purpose |
-|---|---|
-| Seurat / Signac | Single-nucleus RNA-seq and ATAC-seq processing and visualization |
-| clusterProfiler | GO enrichment analysis |
-| rrvgo | GO term semantic similarity and simplification |
-| pheatmap | Heatmap visualization |
-| ggplot2 / patchwork | Figure assembly |
+Full session information is provided in `session_info.txt`.
 
-Full session information including all package versions is provided in `session_info.txt`.
+### Additional tools
 
----
+- **Alignment:** Cell Ranger ARC v2.0.2 (GRCh38 reference)
+- **Ambient RNA removal:** CellBender v0.3.2
+- **Peak calling:** MACS2 v2.2.9.1
+- **Doublet detection:** scDblFinder (doublet rate = 0.08)
+
+## Data availability
+
+Raw and processed sequencing data are deposited in NCBI Gene Expression Omnibus (GEO) under accession GSE[XXXXXX]. Supplemental tables referenced in the scripts are available as Supplementary Data in the published manuscript.
 
 ## Contact
 
-For questions regarding the code, please contact **Laasya Devi Annepureddy** (laasya.devi.annepureddy.th@dartmouth.edu).
-
-For questions regarding the study, please contact **Brittany A. Goods** (britt.goods@unimelb.edu.au)
+For questions regarding the code: Laasya Devi Annepureddy (laasya.devi.annepureddy.th@dartmouth.edu)
+For questions regarding the study: Brittany A. Goods (britt.goods@unimelb.edu.au)
