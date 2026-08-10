@@ -1,6 +1,6 @@
 # Distinct chromatin accessibility programs are linked to metabolic regulation in human lactocytes
 
-Code repository for the manuscript: **"Distinct chromatin accessibility programs are linked to metabolic regulation in human lactocytes"** (Nature Communications, 2026).
+Code repository for the manuscript: **"Distinct chromatin accessibility programs are linked to metabolic regulation in human lactocytes"**
 
 ## Overview
 
@@ -51,11 +51,11 @@ To reproduce the figures, the following files are needed:
 | File | Source |
 |------|--------|
 | `Epithelial_subset.rds` | Processed Seurat object (GEO) |
-| `Links_whole_dataset.csv` | Peak-to-gene links (Supplemental Table) |
-| `DAPs_Epi_LR.csv` | Differentially accessible peaks (Supplemental Table) |
-| `degs_sig_epithelial_v2.csv` | Differentially expressed genes (Supplemental Table) |
-| `SCENITH_MFI_concat.xlsx` | SCENITH MFI data (Supplemental Table S11) |
-| `reactions.tsv` | COMPASS penalty matrix (included in `figure5/`) |
+| `TableS5_Links_whole_dataset.csv` | Peak-to-gene links (Supplemental Table) |
+| `TableS4_DAPs_Epi_LR.csv` | Differentially accessible peaks (Supplemental Table) |
+| `TableS2.csv` | Differentially expressed genes (Supplemental Table) |
+| `TableS11_SCENITH.xlsx` | SCENITH MFI data (Supplemental Table S11) |
+| `TableS9_reactions.tsv` | COMPASS penalty matrix (included in `figure5/`) |
 | `Pseudo_df_metadata.tsv` | Pseudobulk metadata (included in `figure5/`) |
 | `reaction_metadata.csv` | RECON2 annotations (included in `figure5/`) |
 
